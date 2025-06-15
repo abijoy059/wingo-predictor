@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 # Dummy scrape function
 def scrape_results():
-    # ভবিষ্যতে এখানে ওয়েবসাইট থেকে আসল রেজাল্ট আনবো
+    # ভবিষ্যতে এখানে ওয়েবসাইট থেকে আসল রেজাল্ট আনবে
     return [random.randint(0, 9) for _ in range(50)]
 
 # Prediction function (most frequent 3 থেকে random)
@@ -34,5 +34,6 @@ def predict():
         "next_prediction": next_prediction
     })
 
+# Entry point
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0', port=10000)

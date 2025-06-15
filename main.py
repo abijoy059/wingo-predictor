@@ -5,13 +5,12 @@ from flask import Flask, jsonify
 
 app = Flask(__name__)
 
-# Dummy scrape function (later we will replace with real one)
+# Dummy scrape function
 def scrape_results():
-    # এখানে আমরা future এ ওয়েবসাইট থেকে রেজাল্ট আনবো
-    # আপাতত ডেমো হিসেবে কিছু ফলাফল দিচ্ছি
+    # ভবিষ্যতে এখানে ওয়েবসাইট থেকে আসল রেজাল্ট আনবো
     return [random.randint(0, 9) for _ in range(50)]
 
-# Simple ML-like prediction (random choice from top 3 frequent numbers)
+# Prediction function (most frequent 3 থেকে random)
 def predict_next(results):
     freq = {}
     for r in results:
@@ -20,5 +19,20 @@ def predict_next(results):
     top_choices = [item[0] for item in sorted_freq[:3]]
     return random.choice(top_choices)
 
+# Home route (test if working)
 @app.route('/')
 def home():
+    return "Wingo Prediction API is running!"
+
+# Prediction API route
+@app.route('/predict')
+def predict():
+    results = scrape_results()
+    next_prediction = predict_next(results)
+    return jsonify({
+        "past_results": results,
+        "next_prediction": next_prediction
+    })
+
+if __name__ == '__main__':
+    app.run()
